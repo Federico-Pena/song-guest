@@ -27,13 +27,15 @@ export const HeaderRoom = () => {
     contextGame.leaveRoom()
   }
 
-  return contextGame.state === 'waiting' ? (
+  return (
     <header className="room-header">
       <div>
-        <span className="copy-room-id flex" onClick={copyToClipboard}>
-          <samp>{contextGame?._id ?? 'No room ID'}</samp>
-          <CopyIcon />
-        </span>
+        {contextGame.state === 'waiting' && (
+          <span className="copy-room-id flex" onClick={copyToClipboard}>
+            <samp>{contextGame?._id ?? 'No room ID'}</samp>
+            <CopyIcon />
+          </span>
+        )}
         <span className="btn-leave-room flex" onClick={handleLeaveRoom}>
           Leave Room <LeaveIcon />
         </span>
@@ -45,5 +47,5 @@ export const HeaderRoom = () => {
         )}
       </div>
     </header>
-  ) : null
+  )
 }

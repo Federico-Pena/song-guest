@@ -22,9 +22,9 @@ const SearchBar = ({
   const { updateAttempt, attempt, isPlaying } = UseGameContext()
   const { user } = UseUserContext()
   const { addToast } = UseToastContext()
-
   const listRef = useRef<HTMLUListElement>(null)
   const titleRef = useRef<HTMLSpanElement>(null)
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (listRef.current && !listRef.current.contains(event.target as Node)) {

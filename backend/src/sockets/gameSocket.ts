@@ -8,6 +8,7 @@ import {
   loginController
 } from './services/connection.js'
 import {
+  countdownController,
   resetGameController,
   startGameController,
   togglePlayPauseController,
@@ -31,6 +32,7 @@ export const gameSocket = async (io: Server) => {
       handleEvent(EVENT_NAMES.voteCategory, socket, io, voteCategoryController)
       handleEvent(EVENT_NAMES.startGame, socket, io, startGameController)
       handleEvent(EVENT_NAMES.resetGame, socket, io, resetGameController)
+      handleEvent(EVENT_NAMES.countdown, socket, io, countdownController)
       handleEvent(
         EVENT_NAMES.updateAttempt,
         socket,
@@ -62,7 +64,8 @@ export const EVENT_NAMES: EventNamesConst = {
   resetGame: 'resetGame',
   togglePlayPause: 'togglePlayPause',
   updateAttempt: 'updateAttempt',
-  error: 'error'
+  error: 'error',
+  countdown: 'countdown'
 } as const
 
 const handleEvent = (

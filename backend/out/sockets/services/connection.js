@@ -89987,7 +89987,8 @@ var EVENT_NAMES = {
   resetGame: "resetGame",
   togglePlayPause: "togglePlayPause",
   updateAttempt: "updateAttempt",
-  error: "error"
+  error: "error",
+  countdown: "countdown"
 };
 
 // backend/src/sockets/services/connection.ts
@@ -90027,7 +90028,6 @@ var createRoomController = async (data, socket, io2) => {
 var leaveRoomController = async (data, socket, io2) => {
   var _a;
   try {
-    console.log("leaveRoomController", data.user);
     const deleted = await deleteUserFromDb(data.user);
     if (deleted) {
       const newGame = await GameModel.findById(data.user.idGame);
@@ -90037,7 +90037,12 @@ var leaveRoomController = async (data, socket, io2) => {
       }
       io2.to(data.user.idGame).emit(EVENT_NAMES.leaveRoom, {
         game: newGame,
-        user: data.user
+        user: {
+          ...data.user,
+          attempt: 0,
+          ready: false,
+          points: 0
+        }
       });
       socket.leave(data.user.idGame);
     }

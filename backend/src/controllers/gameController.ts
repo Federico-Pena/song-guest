@@ -3,28 +3,24 @@ import { youtube } from 'scrape-youtube'
 import ytdl from '@distube/ytdl-core'
 import { UserScoreModel } from '../models/models.js'
 
-export const playAudio = (req: Request, res: Response) => {
+export const playAudio = async (req: Request, res: Response) => {
   try {
-    const videoId = `https://www.youtube.com/watch?v=${req.params.id}`
-    console.log(req.params)
+    if (!req.params.id) throw new Error('Video ID is required')
 
-    if (!videoId) {
-      res.status(400).json({ error: 'Video ID is required' })
-      return
-    }
+    const videoId = `https://www.youtube.com/watch?v=${req.params.id}`
+    console.log('Load audio from:', videoId)
 
     const audioStream = ytdl(videoId, {
       quality: 'highestaudio',
-      filter: 'audioonly'
+      filter: 'audio'
     })
 
-    res.setHeader('Content-Type', 'audio/mpeg')
+    res.setHeader('Content-Type', 'audio/mp3')
     res.setHeader('Content-Disposition', 'inline')
-
     audioStream.pipe(res)
-  } catch (error) {
-    console.error('Error al transmitir el audio:', error)
-    res.status(500).send('Error al transmitir el audio')
+  } catch (error: any) {
+    console.error('Error streaming audio:', error.message)
+    res.status(500).json({ error: `Error streaming audio: ${error.message}` })
   }
 }
 

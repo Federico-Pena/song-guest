@@ -3,9 +3,7 @@ import Countdown from '../components/Countdown/Countdown.tsx'
 
 const initialState: CountdownContextType = {
   countdown: 0,
-  isFullScreen: false,
-  handleCountdown: () => {},
-  handleIsFullScreen: () => {}
+  handleCountdown: () => {}
 }
 
 const CountdownContext = createContext<CountdownContextType | undefined>(
@@ -16,21 +14,13 @@ export const CountdownProvider: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const [countdown, setCountdown] = useState<number>(initialState.countdown)
-  const [isFullScreen, setIsFullScreen] = useState<boolean>(
-    initialState.isFullScreen
-  )
 
   const handleCountdown = (time: React.SetStateAction<number>) => {
     setCountdown(time)
   }
-  const handleIsFullScreen = (isFullScreen: React.SetStateAction<boolean>) => {
-    setIsFullScreen(isFullScreen)
-  }
 
   return (
-    <CountdownContext.Provider
-      value={{ countdown, isFullScreen, handleCountdown, handleIsFullScreen }}
-    >
+    <CountdownContext.Provider value={{ countdown, handleCountdown }}>
       <Countdown />
       {children}
     </CountdownContext.Provider>

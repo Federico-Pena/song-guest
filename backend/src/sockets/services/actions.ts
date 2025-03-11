@@ -185,6 +185,31 @@ export const resetGameController = async (
   }
 }
 
+export const countdownController = async (
+  data: EventsMap['countdown'],
+  socket: Socket,
+  io: Server
+) => {
+  try {
+    let { game, time } = data
+    if (!game) return
+    const gameStored = await GameModel.findById(game._id)
+    if (!gameStored) return
+    let preparationInterval: NodeJS.Timer
+    preparationInterval = setInterval(() => {
+      io.to(game._id).emit(EVENT_NAMES.countdown, {
+        time
+      })
+      time--
+      if (time < 0) {
+        clearInterval(preparationInterval as any)
+      }
+    }, 1000)
+  } catch (error: any) {
+    catchErrorController('countdownController', error)
+  }
+}
+
 const getMostVotedCategory = async (game: GameModelDB) => {
   const sortedCategories = [...game.categories].sort(
     (a, b) => b.players.length - a.players.length

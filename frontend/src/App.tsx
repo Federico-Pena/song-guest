@@ -18,8 +18,8 @@ function App() {
       <LoaderProvider>
         <ToastProvider>
           <UserProvider>
-            <GameProvider>
-              <CountdownProvider>
+            <CountdownProvider>
+              <GameProvider>
                 <div className="App">
                   <div className="background"></div>
                   <Navigation />
@@ -33,8 +33,8 @@ function App() {
                     <Route path="/multiplayer/:id" element={<RoomPage />} />
                   </Routes>
                 </div>
-              </CountdownProvider>
-            </GameProvider>
+              </GameProvider>
+            </CountdownProvider>
           </UserProvider>
         </ToastProvider>
       </LoaderProvider>

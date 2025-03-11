@@ -21,7 +21,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     listenStartGame,
     listenResetGame,
     listenError,
-    listenUpdateAttempt
+    listenUpdateAttempt,
+    listenCountdown
   } = useListeners(dispatch)
 
   useSocketListeners({
@@ -33,7 +34,8 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     startGame: listenStartGame,
     resetGame: listenResetGame,
     error: listenError,
-    updateAttempt: listenUpdateAttempt
+    updateAttempt: listenUpdateAttempt,
+    countdown: listenCountdown
   })
 
   useHandlePageUnload(() => {
@@ -64,10 +66,16 @@ export const GameProvider = ({ children }: { children: ReactNode }) => {
     })
   }
   const startGame = () => {
-    socket.emit(EVENTS_NAME_FRONT.startGame, {
-      user,
-      state: 'in-progress'
+    socket.emit(EVENTS_NAME_FRONT.countdown, {
+      time: 5,
+      game: state
     })
+    setTimeout(() => {
+      socket.emit(EVENTS_NAME_FRONT.startGame, {
+        user,
+        state: 'in-progress'
+      })
+    }, 2000)
   }
   const updateAttempt = (text: string) => {
     socket.emit(EVENTS_NAME_FRONT.updateAttempt, {

@@ -1,17 +1,18 @@
 import './AudioProgressBar.css'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface AudioProgressBarProps {
   audioRef: React.RefObject<HTMLAudioElement>
   playIntervals: number[]
+  initialTime: number
 }
 
 export const AudioProgressBar = ({
   audioRef,
-  playIntervals
+  playIntervals,
+  initialTime
 }: AudioProgressBarProps) => {
   const [progress, setProgress] = useState(0)
-  const progressBarRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (!audioRef || !audioRef.current) return
@@ -19,7 +20,9 @@ export const AudioProgressBar = ({
     const updateProgress = () => {
       if (refAudio) {
         const percentage =
-          (refAudio.currentTime / playIntervals[playIntervals.length - 1]) * 100
+          ((refAudio.currentTime - initialTime) /
+            playIntervals[playIntervals.length - 1]) *
+          100
         setProgress(percentage)
       }
     }
@@ -33,11 +36,11 @@ export const AudioProgressBar = ({
         refAudio.removeEventListener('timeupdate', updateProgress)
       }
     }
-  }, [audioRef, playIntervals])
+  }, [audioRef, playIntervals, initialTime])
 
   return (
     <div className="progress-container">
-      <div className="progress-bar" ref={progressBarRef}>
+      <div className="progress-bar">
         <div className="progress" style={{ width: `${progress}%` }}></div>
         {playIntervals.map((time, index) => (
           <div

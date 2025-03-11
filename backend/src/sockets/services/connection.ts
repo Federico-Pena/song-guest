@@ -56,8 +56,6 @@ export const leaveRoomController = async (
   io: Server
 ) => {
   try {
-    console.log('leaveRoomController', data.user)
-
     const deleted = await deleteUserFromDb(data.user)
     if (deleted) {
       const newGame = await GameModel.findById(data.user.idGame)
@@ -67,7 +65,12 @@ export const leaveRoomController = async (
       }
       io.to(data.user.idGame).emit(EVENT_NAMES.leaveRoom, {
         game: newGame,
-        user: data.user
+        user: {
+          ...data.user,
+          attempt: 0,
+          ready: false,
+          points: 0
+        }
       })
       socket.leave(data.user.idGame)
     }

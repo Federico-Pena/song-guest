@@ -2,6 +2,7 @@ import './SinglePlayerPage.css'
 import { Player } from '../components/Rooms/Player.tsx'
 import SongPlayer from '../components/SongPlayer/SongPlayer.tsx'
 import { UseGameContext } from '../context/GameContext.tsx'
+import { LeaveIcon } from '../components/icons/Icons.tsx'
 
 function SinglePlayerPage() {
   const {
@@ -12,7 +13,8 @@ function SinglePlayerPage() {
     state,
     resetGame,
     videoTitle,
-    categorySelected
+    categorySelected,
+    leaveRoom
   } = UseGameContext()
 
   const handleStart = () => {
@@ -23,6 +25,9 @@ function SinglePlayerPage() {
   }
   const handleReStart = () => {
     resetGame()
+  }
+  const handleLeaveRoom = () => {
+    leaveRoom()
   }
   return (
     <main className="container">
@@ -42,6 +47,9 @@ function SinglePlayerPage() {
       )}
       {_id && (
         <div className="room">
+          <span className="btn-leave-room" onClick={handleLeaveRoom}>
+            Leave Room <LeaveIcon />
+          </span>
           <div className="playersContainer">
             <Player />
           </div>

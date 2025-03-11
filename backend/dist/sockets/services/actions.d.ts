@@ -6,3 +6,4 @@ export declare const toggleReadyController: (data: EventsMap["toggleReady"], soc
 export declare const voteCategoryController: (data: EventsMap["voteCategory"], socket: Socket, io: Server) => Promise<void>;
 export declare const startGameController: (data: EventsMap["startGame"], socket: Socket, io: Server) => Promise<void>;
 export declare const resetGameController: (data: EventsMap["resetGame"], socket: Socket, io: Server) => Promise<void>;
+export declare const countdownController: (data: EventsMap["countdown"], socket: Socket, io: Server) => Promise<void>;

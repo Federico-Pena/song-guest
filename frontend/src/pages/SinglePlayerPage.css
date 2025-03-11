@@ -1,6 +1,23 @@
 .container {
   display: flex;
   min-height: 50dvh;
+  .btn-leave-room {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 0.3rem;
+    transition: scale 0.2s, filter 0.2s;
+    display: flex;
+    gap: 0.5rem;
+    align-self: flex-start;
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    &:hover {
+      filter: brightness(2);
+      scale: 0.98;
+    }
+  }
   .btn-start-single {
     padding: 0.5rem 1rem;
     cursor: pointer;

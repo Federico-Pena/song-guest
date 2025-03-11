@@ -1,9 +1,10 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useState } from 'react'
 import Toastify from 'toastify-js'
 
 interface ToastContextProps {
   addToast: (options?: OptionsToast) => void
 }
+
 type OptionsToast = {
   text: string
   duration: number
@@ -16,6 +17,7 @@ type OptionsToast = {
   stopOnFocus?: boolean
   onClick?: () => void
 }
+
 const initialState: ToastContextProps = {
   addToast: () => {}
 }
@@ -23,8 +25,15 @@ const initialState: ToastContextProps = {
 const ToastContext = createContext<ToastContextProps>(initialState)
 
 const ToastProvider = ({ children }: { children: React.ReactNode }) => {
+  const [lastMessage, setLastMessage] = useState<string | null>(null)
+
   const addToast = (options?: OptionsToast) => {
+    if (!options || options.text === lastMessage) return
+
+    setLastMessage(options.text)
     Toastify(options).showToast()
+
+    setTimeout(() => setLastMessage(null), 1000)
   }
 
   return (

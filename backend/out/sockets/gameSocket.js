@@ -90021,7 +90021,6 @@ var createRoomController = async (data, socket, io2) => {
 var leaveRoomController = async (data, socket, io2) => {
   var _a;
   try {
-    console.log("leaveRoomController", data.user);
     const deleted = await deleteUserFromDb(data.user);
     if (deleted) {
       const newGame = await GameModel.findById(data.user.idGame);
@@ -90031,7 +90030,12 @@ var leaveRoomController = async (data, socket, io2) => {
       }
       io2.to(data.user.idGame).emit(EVENT_NAMES.leaveRoom, {
         game: newGame,
-        user: data.user
+        user: {
+          ...data.user,
+          attempt: 0,
+          ready: false,
+          points: 0
+        }
       });
       socket.leave(data.user.idGame);
     }
@@ -90214,6 +90218,26 @@ var resetGameController = async (data, socket, io2) => {
     catchErrorController("resetGameController", error);
   }
 };
+var countdownController = async (data, socket, io2) => {
+  try {
+    let { game, time } = data;
+    if (!game) return;
+    const gameStored = await GameModel.findById(game._id);
+    if (!gameStored) return;
+    let preparationInterval;
+    preparationInterval = setInterval(() => {
+      io2.to(game._id).emit(EVENT_NAMES.countdown, {
+        time
+      });
+      time--;
+      if (time < 0) {
+        clearInterval(preparationInterval);
+      }
+    }, 1e3);
+  } catch (error) {
+    catchErrorController("countdownController", error);
+  }
+};
 var getMostVotedCategory = async (game) => {
   const sortedCategories = [...game.categories].sort(
     (a, b) => b.players.length - a.players.length
@@ -90259,6 +90283,7 @@ var gameSocket = async (io2) => {
       handleEvent(EVENT_NAMES.voteCategory, socket, io2, voteCategoryController);
       handleEvent(EVENT_NAMES.startGame, socket, io2, startGameController);
       handleEvent(EVENT_NAMES.resetGame, socket, io2, resetGameController);
+      handleEvent(EVENT_NAMES.countdown, socket, io2, countdownController);
       handleEvent(
         EVENT_NAMES.updateAttempt,
         socket,
@@ -90289,7 +90314,8 @@ var EVENT_NAMES = {
   resetGame: "resetGame",
   togglePlayPause: "togglePlayPause",
   updateAttempt: "updateAttempt",
-  error: "error"
+  error: "error",
+  countdown: "countdown"
 };
 var handleEvent = (event, socket, io2, controller) => {
   socket.on(event, (data) => {

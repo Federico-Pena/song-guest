@@ -63,6 +63,7 @@ type EventNames =
   | 'togglePlayPause'
   | 'updateAttempt'
   | 'error'
+  | 'countdown'
 
 type EventNamesConst = Record<EventNames, EventNames>
 
@@ -80,6 +81,7 @@ type EventsMap = {
   togglePlayPause: { user: Player; isPlaying: boolean }
   updateAttempt: { user: Player; attempt: number; text: string }
   error: { error: string }
+  countdown: { time: number; game: GameModelDB }
 }
 
 type ListenEvent<K extends keyof EventsMap> = {

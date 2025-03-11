@@ -15,7 +15,8 @@ const EVENTS_NAME_FRONT: EventNamesConst = {
   startGame: 'startGame',
   resetGame: 'resetGame',
   error: 'error',
-  updateAttempt: 'updateAttempt'
+  updateAttempt: 'updateAttempt',
+  countdown: 'countdown'
 }
 
 export { socket, EVENTS_NAME_FRONT }

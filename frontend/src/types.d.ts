@@ -84,9 +84,7 @@ type GameAction =
 
 type CountdownContextType = {
   countdown: number
-  isFullScreen: boolean
   handleCountdown: React.Dispatch<React.SetStateAction<number>>
-  handleIsFullScreen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 type EventNames =
@@ -100,6 +98,7 @@ type EventNames =
   | 'error'
   | 'updateAttempt'
   | 'resetGame'
+  | 'countdown'
 
 type EventsMap = {
   leaveRoom: { game: GameModel; user: Player }
@@ -112,6 +111,7 @@ type EventsMap = {
   error: { error: string }
   updateAttempt: { user: Player; game: GameModel }
   resetGame: { user: Player; game: GameModel }
+  countdown: { time: number }
 }
 type EventNamesConst = Record<EventNames, EventNames>
 
