@@ -2,8 +2,11 @@ import { Link } from 'react-router-dom'
 import './HomePage.css'
 import { useEffect, useState } from 'react'
 import { UserGroupIcon, UserIcon } from '../components/icons/Icons.tsx'
+import { API_CONFIG } from '../config/config.ts'
 
-const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
+const URL_DEV = API_CONFIG.API_URL
+
+console.log()
 
 export const HomePage = () => {
   const [usersScore, setUsersScore] = useState<UserScore[]>([])

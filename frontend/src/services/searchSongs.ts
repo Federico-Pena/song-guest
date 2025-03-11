@@ -1,3 +1,5 @@
+import { API_CONFIG } from '../config/config.ts'
+
 interface SpotifyTrack {
   id: string
   name: string
@@ -10,9 +12,10 @@ interface SpotifySearchResponse {
   }
 }
 
-const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID
-const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
-const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
+const SPOTIFY_CLIENT_ID = API_CONFIG.SPOTIFY_CLIENT_ID
+
+const SPOTIFY_CLIENT_SECRET = API_CONFIG.SPOTIFY_CLIENT_SECRET
+const URL_DEV = API_CONFIG.API_URL
 
 const getSpotifyToken = async (): Promise<string> => {
   const response = await fetch('https://accounts.spotify.com/api/token', {

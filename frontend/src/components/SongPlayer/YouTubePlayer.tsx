@@ -5,8 +5,9 @@ import { UseUserContext } from '../../context/UserContext.tsx'
 import { AudioProgressBar } from './AudioProgressBar.tsx'
 import { MusicIcon, PlayIcon } from '../icons/Icons.tsx'
 import { UseToastContext } from '../../context/ToastContext.tsx'
+import { API_CONFIG } from '../../config/config.ts'
 
-const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
+const URL_DEV = API_CONFIG.API_URL
 
 export const YouTubePlayer = () => {
   const { isPlaying, categorySelected, dispatch, state } = UseGameContext()
