@@ -6,6 +6,8 @@ import { AudioProgressBar } from './AudioProgressBar.tsx'
 import { MusicIcon, PlayIcon } from '../icons/Icons.tsx'
 import { UseToastContext } from '../../context/ToastContext.tsx'
 
+const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
+
 export const YouTubePlayer = () => {
   const { isPlaying, categorySelected, dispatch, state } = UseGameContext()
   const { user } = UseUserContext()
@@ -96,7 +98,7 @@ export const YouTubePlayer = () => {
       >
         <source
           onLoad={handleAudioLoad}
-          src={`http://localhost:1234/play-audio/${categorySelected?.items[0]?.id}`}
+          src={`${URL_DEV}/play-audio/${categorySelected?.items[0]?.id}`}
           type="audio/mpeg"
         />
         Tu navegador no soporta el elemento de audio.

@@ -12,6 +12,7 @@ interface SpotifySearchResponse {
 
 const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
+const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
 
 const getSpotifyToken = async (): Promise<string> => {
   const response = await fetch('https://accounts.spotify.com/api/token', {
@@ -59,7 +60,7 @@ const searchSpotify = async (
 }
 
 const searchSongYoutube = async (query: string) => {
-  const youtubeResults = await fetch('http://localhost:1234/youtube-search', {
+  const youtubeResults = await fetch(`${URL_DEV}/youtube-search`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

@@ -3,12 +3,14 @@ import './HomePage.css'
 import { useEffect, useState } from 'react'
 import { UserGroupIcon, UserIcon } from '../components/icons/Icons.tsx'
 
+const URL_DEV = import.meta.env.VITE_URL_DEV ?? '/'
+
 export const HomePage = () => {
   const [usersScore, setUsersScore] = useState<UserScore[]>([])
 
   useEffect(() => {
     const fetchUsersScore = async () => {
-      const response = await fetch('http://localhost:1234/user-score')
+      const response = await fetch(`${URL_DEV}/user-score`)
       const data = await response.json()
       setUsersScore(data)
     }
