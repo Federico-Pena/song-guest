@@ -1,0 +1,70 @@
+.ul-results {
+  z-index: 1;
+  background-color: #272727;
+  grid-column: 1/-1;
+  display: grid;
+  gap: 0.5rem;
+  position: absolute;
+  width: 100%;
+  top: 100%;
+  transition: filter 0.2s;
+  .search-result:hover {
+    filter: brightness(1.5);
+  }
+  .search-result {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    span {
+      flex: 1;
+      text-wrap: balance;
+    }
+    img {
+      aspect-ratio: 1/1;
+      width: clamp(2rem, 5vw, 5rem);
+      height: auto;
+      border-radius: 0.3rem;
+    }
+  }
+}
+.inputSongAnswer {
+  width: 100%;
+  height: 100%;
+  .input-attemps {
+    padding: 1rem;
+    font-size: inherit;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+  }
+}
+.sendBtn {
+  cursor: pointer;
+  border: none;
+  background-color: #000000d3;
+  border-radius: 0 0.3rem 0.3rem 0;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  transition: filter 0.2s;
+
+  svg {
+    width: clamp(1rem, 2vw, 5rem);
+    transition: rotate 0.2s;
+    height: clamp(1rem, 2vw, 5rem);
+  }
+  &:hover {
+    filter: invert(1);
+    svg {
+      rotate: -90deg;
+    }
+  }
+}

@@ -1,0 +1,58 @@
+.youtube-player {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1rem;
+  .audio-player {
+    width: 100%;
+    margin: auto;
+  }
+  audio::-webkit-media-controls-panel {
+    background-color: rgb(39, 39, 39);
+  }
+  audio::-webkit-media-controls-play-button {
+    background-color: lightblue;
+    border-radius: 50%;
+  }
+
+  audio::-webkit-media-controls-timeline {
+    border-radius: 40px;
+  }
+  audio::-webkit-media-controls-volume-slider {
+    background-color: lightblue;
+    border-radius: 50px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-right: 0.5rem;
+  }
+  audio::-webkit-media-controls-mute-button {
+    background-color: lightblue;
+    border-radius: 50%;
+  }
+  .btn-play-pause {
+    padding: 0.5rem;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    border: 1px solid;
+    transition: scale 0.2s, filter 0.2s;
+    border-radius: 0.3rem;
+    background-color: #000000d3;
+    color: #fff;
+    svg {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      fill: inherit;
+      opacity: 1;
+    }
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+    &:hover {
+      filter: brightness(2);
+      scale: 1.05;
+    }
+  }
+}

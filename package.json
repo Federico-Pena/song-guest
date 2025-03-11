@@ -1,0 +1,43 @@
+{
+  "name": "song-guest",
+  "version": "0.0.1",
+  "main": "backend/dist/index.js",
+  "types": "backend/dist/index.d.ts",
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "dev:esbuild": "node --env-file .env esbuild.config.js",
+    "dev:node": "node --watch --env-file .env backend/out/index.js",
+    "dev": "run-p dev:*",
+    "build:tsc": "tsc",
+    "build:esbuild": "node esbuild.config.js",
+    "build": "run-p build:*",
+    "lint": "eslint ./backend/src",
+    "start": "node --env-file .env backend/dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@distube/ytdl-core": "^4.16.4",
+    "cors": "latest",
+    "express": "latest",
+    "mongoose": "^8.12.1",
+    "scrape-youtube": "^2.4.0",
+    "socket.io": "^4.8.1",
+    "ytpl": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "latest",
+    "@types/express": "latest",
+    "@types/node": "latest",
+    "@types/supertest": "latest",
+    "esbuild": "latest",
+    "npm-run-all": "latest",
+    "standard": "latest",
+    "supertest": "latest",
+    "typescript": "latest",
+    "vitest": "latest"
+  }
+}

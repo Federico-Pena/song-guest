@@ -1,0 +1,78 @@
+:root {
+  font-family: system-ui, sans-serif;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  --color-info: #00bde3;
+  --color-success: #00a91c;
+  --color-warning: #ffbe2e;
+  --color-error: #d54309;
+  --disabled-light: #919191;
+  --disabled-dark: #454545;
+  --poppins-regular: 'poppins-regular', sans-serif;
+  --poppins-bold: 'poppins-bold', sans-serif;
+}
+
+.toast-info {
+  background: var(--color-info) !important;
+}
+.toast-success {
+  background: var(--color-success) !important;
+}
+.toast-warning {
+  background: var(--color-warning) !important;
+}
+.toast-error {
+  background: var(--color-error) !important;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html {
+  overflow-x: hidden;
+}
+
+ul,
+li {
+  list-style: none;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+@font-face {
+  font-family: 'poppins-regular', sans-serif;
+  src: url('/fonts/Poppins-Regular.woff2') format('woff2');
+  font-size: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'poppins-bold', sans-serif;
+  src: url('/fonts/Poppins-Bold.woff2') format('woff2');
+  font-display: swap;
+  font-size: 700;
+}
