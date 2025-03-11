@@ -14,18 +14,25 @@ export const playAudio = async (req: Request, res: Response) => {
       quality: 'highestaudio',
       filter: 'audio'
     })
+
+    // Manejo de errores en el stream
     audioStream.on('error', (error) => {
       console.error('Error downloading audio:', error.message)
-      res
-        .status(500)
-        .json({ error: `Error downloading audio: ${error.message}` })
     })
-    res.setHeader('Content-Type', 'audio/mp3')
+
+    // Configurar los headers antes de empezar a enviar el audio
+    res.setHeader('Content-Type', 'audio/mpeg')
     res.setHeader('Content-Disposition', 'inline')
-    audioStream.pipe(res)
+
+    // Enviar audio
+    audioStream.pipe(res).on('finish', () => {
+      console.log('Stream finished successfully')
+    })
   } catch (error: any) {
     console.error('Error streaming audio:', error.message)
-    res.status(500).json({ error: `Error streaming audio: ${error.message}` })
+    if (!res.headersSent) {
+      res.status(500).json({ error: `Error streaming audio: ${error.message}` })
+    }
   }
 }
 

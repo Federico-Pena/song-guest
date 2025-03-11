@@ -47,7 +47,7 @@ export const YouTubePlayer = () => {
         controls={state === 'finished'}
         className="audio-player"
       >
-        <source type="audio/mp3" />
+        <source type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
       </audio>
     </article>
