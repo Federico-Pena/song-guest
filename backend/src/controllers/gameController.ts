@@ -12,7 +12,12 @@ export const playAudio = async (req: Request, res: Response) => {
 
     const audioStream = ytdl(videoId, {
       quality: 'highestaudio',
-      filter: 'audioonly'
+      filter: 'audioonly',
+      requestOptions: {
+        headers: {
+          'User-Agent': 'Mozilla/5.0'
+        }
+      }
     })
 
     // Manejo de errores en el stream
