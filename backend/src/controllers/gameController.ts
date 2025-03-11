@@ -14,7 +14,12 @@ export const playAudio = async (req: Request, res: Response) => {
       quality: 'highestaudio',
       filter: 'audio'
     })
-
+    audioStream.on('error', (error) => {
+      console.error('Error downloading audio:', error.message)
+      res
+        .status(500)
+        .json({ error: `Error downloading audio: ${error.message}` })
+    })
     res.setHeader('Content-Type', 'audio/mp3')
     res.setHeader('Content-Disposition', 'inline')
     audioStream.pipe(res)
