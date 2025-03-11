@@ -1,5 +1,7 @@
 const API_URL =
-  import.meta.env.MODE === 'development' ? import.meta.env.VITE_URL_DEV : '/'
+  import.meta.env.MODE === 'development'
+    ? import.meta.env.VITE_URL_DEV
+    : 'https://song-guest.onrender.com'
 const clientId = import.meta.env.VITE_GOOGLE_CLOUD_CLIENT_ID as string
 const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID
 const SPOTIFY_CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET
