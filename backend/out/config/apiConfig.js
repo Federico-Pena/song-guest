@@ -9,7 +9,7 @@ var host = process.env.HOST ?? "localhost";
 var PORT = process.env.PORT ?? 1234;
 var API_URL = nodDevEnv ? `${protocol}://${host}:${PORT}` : "https://song-guest.onrender.com";
 var CORS_SETTINGS = {
-  origin: [API_URL, "https://song-guest.onrender.com", "http://localhost:5173"],
+  origin: [API_URL, "http://localhost:5173"],
   // Allow specific origins
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"]

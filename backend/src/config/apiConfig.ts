@@ -9,7 +9,7 @@ const API_URL = nodDevEnv
   ? `${protocol}://${host}:${PORT}`
   : 'https://song-guest.onrender.com'
 const CORS_SETTINGS = {
-  origin: [API_URL, 'https://song-guest.onrender.com', 'http://localhost:5173'], // Allow specific origins
+  origin: [API_URL, 'http://localhost:5173'], // Allow specific origins
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization']
   // credentials: true,
