@@ -35,7 +35,6 @@ export const useAudioPlayer = (
       Math.random() * ((categorySelected?.items?.length || 5) - 1)
     )
     const id = categorySelected?.items[rendomIndex]?.id
-    setId(id)
     if (!window.YT) {
       const script = document.createElement('script')
       script.src = 'https://www.youtube.com/iframe_api'
@@ -46,7 +45,10 @@ export const useAudioPlayer = (
         const newPlayer = new window.YT.Player(iframeRef.current, {
           videoId: id,
           events: {
-            onReady: () => setPlayer(newPlayer),
+            onReady: () => {
+              setId(id)
+              setPlayer(newPlayer)
+            },
             onError: (event) => handleVideoError(event)
           }
         })
