@@ -90,6 +90,7 @@ export const useAudioPlayer = (
 
   const togglePlayPause = () => {
     if (!player) return
+    player.mute()
     if (user?.attempt === playIntervals.length) {
       addToast({
         text: 'You have finished the game',
@@ -101,6 +102,7 @@ export const useAudioPlayer = (
     const playTime = playIntervals[user?.attempt]
     player.seekTo(initialTime, true)
     player.playVideo()
+    player.unMute()
     dispatch({ type: 'TOGGLE_PLAY_PAUSE' })
     setTimeout(() => {
       if (player.getPlayerState() === 1) {
