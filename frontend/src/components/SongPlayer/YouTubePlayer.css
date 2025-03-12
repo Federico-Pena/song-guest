@@ -5,29 +5,6 @@
   .youtube-iframe {
     display: none;
   }
-
-  audio::-webkit-media-controls-panel {
-    background-color: rgb(39, 39, 39);
-  }
-  audio::-webkit-media-controls-play-button {
-    background-color: lightblue;
-    border-radius: 50%;
-  }
-
-  audio::-webkit-media-controls-timeline {
-    border-radius: 40px;
-  }
-  audio::-webkit-media-controls-volume-slider {
-    background-color: lightblue;
-    border-radius: 50px;
-    padding-left: 10px;
-    padding-right: 10px;
-    margin-right: 0.5rem;
-  }
-  audio::-webkit-media-controls-mute-button {
-    background-color: lightblue;
-    border-radius: 50%;
-  }
   .btn-play-pause {
     padding: 0.5rem;
     cursor: pointer;

@@ -21,7 +21,9 @@ export const AudioProgressBar = ({
               left: `${(time / playIntervals[playIntervals.length - 1]) * 100}%`
             }}
           >
-            <span className="tick-text">{(index + 1) * 10}</span>
+            <span className="tick-text">
+              {[...playIntervals].reverse()[index]}
+            </span>
           </div>
         ))}
       </div>

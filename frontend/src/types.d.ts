@@ -14,6 +14,7 @@ interface UserScore {
   name: string
   picture: string
   points: number
+  games: number
 }
 interface CategoryItem {
   title: string

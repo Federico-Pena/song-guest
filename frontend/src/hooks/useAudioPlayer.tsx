@@ -31,10 +31,8 @@ export const useAudioPlayer = (
 
   useEffect(() => {
     if (!categorySelected) return
-    const rendomIndex = Math.floor(
-      Math.random() * ((categorySelected?.items?.length || 5) - 1)
-    )
-    const id = categorySelected?.items[rendomIndex]?.id
+
+    const id = categorySelected.items[0]?.id
     if (!window.YT) {
       const script = document.createElement('script')
       script.src = 'https://www.youtube.com/iframe_api'
@@ -47,6 +45,12 @@ export const useAudioPlayer = (
           events: {
             onReady: () => {
               setId(id)
+              dispatch({
+                type: 'SET_VIDEO_TITLE',
+                payload: {
+                  videoTitle: categorySelected.items[0]?.title
+                }
+              })
               setPlayer(newPlayer)
             },
             onError: (event) => handleVideoError(event)
@@ -56,7 +60,7 @@ export const useAudioPlayer = (
     }
     const handleVideoError = (event: YT.OnErrorEvent) => {
       const errorCode = event.data
-      const id = categorySelected?.items[rendomIndex]?.id
+      const id = categorySelected?.items[0]?.id
 
       let errorMessage = 'An unknown error occurred.'
       switch (errorCode) {
@@ -99,7 +103,7 @@ export const useAudioPlayer = (
         setAttempts((prev) => prev + 1)
       }, 3000)
     }
-  }, [categorySelected, iframeRef, addToast, attempts, player])
+  }, [categorySelected, iframeRef, addToast, attempts, player, dispatch])
 
   useEffect(() => {
     if (!player) return

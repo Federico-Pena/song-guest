@@ -6,6 +6,7 @@ import { EVENT_NAMES } from '../gameSocket.js'
 import { GameModel, UserScoreModel } from '../../models/models.js'
 import ytpl from 'ytpl'
 
+const playIntervals = [1, 3, 6, 12, 20, 30]
 export const updateAttemptController = async (
   data: EventsMap['updateAttempt'],
   socket: Socket,
@@ -33,14 +34,16 @@ export const updateAttemptController = async (
         idGoogle: user.idGoogle
       })
       if (newUser) {
-        newUser.points = newUser.points + 1
+        newUser.points = [...playIntervals].reverse()[game.attempt] ?? 0
+        newUser.games = newUser.games + 1
         await newUser.save()
       } else if (user.idGoogle !== 'guest') {
         const newUser = new UserScoreModel({
           idGoogle: user.idGoogle,
           name: user.name,
           picture: user.picture,
-          points: 1
+          points: [...playIntervals].reverse()[game.attempt] ?? 0,
+          games: 1
         })
         await newUser.save()
       }

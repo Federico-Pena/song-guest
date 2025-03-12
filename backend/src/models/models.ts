@@ -28,7 +28,8 @@ const UserScoreSchema = new mongoose.Schema({
   idGoogle: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   picture: { type: String, required: true },
-  points: { type: Number, default: 0 }
+  points: { type: Number, default: 0 },
+  games: { type: Number, default: 0 }
 })
 
 const UserSchema = new mongoose.Schema({

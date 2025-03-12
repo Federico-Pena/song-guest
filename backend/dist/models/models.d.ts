@@ -625,16 +625,19 @@ export declare const UserScoreModel: mongoose.Model<{
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 }, {}, {}, {}, mongoose.Document<unknown, {}, {
     name: string;
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 }> & {
     name: string;
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 } & {
     _id: mongoose.Types.ObjectId;
 } & {
@@ -644,16 +647,19 @@ export declare const UserScoreModel: mongoose.Model<{
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 }, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
     name: string;
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 }>> & mongoose.FlatRecord<{
     name: string;
     idGoogle: string;
     picture: string;
     points: number;
+    games: number;
 }> & {
     _id: mongoose.Types.ObjectId;
 } & {

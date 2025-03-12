@@ -22,13 +22,17 @@
       height: 100%;
       width: 0.3rem;
       background-color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:last-child {
+        .tick-text {
+          left: -1rem;
+        }
+      }
       .tick-text {
-        position: absolute;
-        bottom: 100%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        position: relative;
         font-size: 0.8rem;
-        color: #ffffff;
       }
     }
   }

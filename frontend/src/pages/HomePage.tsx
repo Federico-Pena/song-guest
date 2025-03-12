@@ -26,6 +26,12 @@ export const HomePage = () => {
         <section className="users-score">
           <h3>Better Scores</h3>
           <ul>
+            <li className="header-scores">
+              <span></span>
+              <span>Name</span>
+              <span>Points</span>
+              <span>Games</span>
+            </li>
             {usersScore
               .sort((a, b) => b.points - a.points)
               .map((user) => (
@@ -33,6 +39,7 @@ export const HomePage = () => {
                   <img src={user.picture} alt={user.name} />
                   <span className="span-name">{user.name}</span>
                   <span className="span-points">{user.points}</span>
+                  <span className="span-points">{user.games}</span>
                 </li>
               ))}
           </ul>

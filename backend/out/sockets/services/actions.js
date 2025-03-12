@@ -89898,7 +89898,8 @@ var UserScoreSchema = new import_mongoose.default.Schema({
   idGoogle: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   picture: { type: String, required: true },
-  points: { type: Number, default: 0 }
+  points: { type: Number, default: 0 },
+  games: { type: Number, default: 0 }
 });
 var UserSchema = new import_mongoose.default.Schema({
   idGame: { type: String },
@@ -89980,6 +89981,7 @@ var EVENT_NAMES = {
 
 // backend/src/sockets/services/actions.ts
 var import_ytpl = __toESM(require_main(), 1);
+var playIntervals = [1, 3, 6, 12, 20, 30];
 var updateAttemptController = async (data, socket, io2) => {
   var _a;
   try {
@@ -90004,14 +90006,16 @@ var updateAttemptController = async (data, socket, io2) => {
         idGoogle: user.idGoogle
       });
       if (newUser) {
-        newUser.points = newUser.points + 1;
+        newUser.points = [...playIntervals].reverse()[game.attempt] ?? 0;
+        newUser.games = newUser.games + 1;
         await newUser.save();
       } else if (user.idGoogle !== "guest") {
         const newUser2 = new UserScoreModel({
           idGoogle: user.idGoogle,
           name: user.name,
           picture: user.picture,
-          points: 1
+          points: [...playIntervals].reverse()[game.attempt] ?? 0,
+          games: 1
         });
         await newUser2.save();
       }

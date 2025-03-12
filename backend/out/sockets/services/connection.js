@@ -89898,7 +89898,8 @@ var UserScoreSchema = new import_mongoose.default.Schema({
   idGoogle: { type: String, required: true, unique: true },
   name: { type: String, required: true },
   picture: { type: String, required: true },
-  points: { type: Number, default: 0 }
+  points: { type: Number, default: 0 },
+  games: { type: Number, default: 0 }
 });
 var UserSchema = new import_mongoose.default.Schema({
   idGame: { type: String },

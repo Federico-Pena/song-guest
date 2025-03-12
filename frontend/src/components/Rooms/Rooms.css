@@ -178,10 +178,12 @@
       text-align: center;
       text-wrap: balance;
     }
-    img {
-      width: 50%;
-      height: auto;
-      border-radius: 0.3rem;
+    iframe {
+      border: none;
+      border-radius: 0.5rem;
+      height: 200px;
+      width: 100%;
+      max-width: 400px;
     }
   }
 
