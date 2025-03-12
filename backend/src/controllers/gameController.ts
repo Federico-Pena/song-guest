@@ -12,15 +12,12 @@ export const playAudio = async (req: Request, res: Response) => {
 
     const audioStream = ytdl(videoId, {
       quality: 'highestaudio',
-      filter: 'audioonly',
-      requestOptions: {
-        headers: {
-          'User-Agent':
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-      }
+      filter: 'audioonly'
     })
-
+    /* 
+     res.setHeader('Content-Type', 'audio/mpeg')
+    res.setHeader('Content-Disposition', 'inline')
+ */
     audioStream.on('error', async (error) => {
       console.error('Error downloading audio:', error.message)
       if (error.message.includes('403')) {
@@ -35,17 +32,12 @@ export const playAudio = async (req: Request, res: Response) => {
       }
     })
 
-    res.setHeader('Content-Type', 'audio/mpeg')
-    res.setHeader('Content-Disposition', 'inline')
-
     audioStream.pipe(res).on('finish', () => {
       console.log('Stream finished successfully')
+      audioStream.destroy()
     })
   } catch (error: any) {
     console.error('Error streaming audio:', error.message)
-    if (!res.headersSent) {
-      res.status(500).json({ error: `Error streaming audio: ${error.message}` })
-    }
   }
 }
 
