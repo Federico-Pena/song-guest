@@ -2,7 +2,7 @@ import type { Request, Response } from 'express'
 import { youtube } from 'scrape-youtube'
 import ytdl from '@distube/ytdl-core'
 import { UserScoreModel } from '../models/models.js'
-
+let retries = 5
 export const playAudio = async (req: Request, res: Response) => {
   try {
     if (!req.params.id) throw new Error('Video ID is required')
@@ -27,6 +27,11 @@ export const playAudio = async (req: Request, res: Response) => {
       ) {
         console.log('Retrying with a new request...')
         await new Promise((resolve) => setTimeout(resolve, 2000)) // Espera 2s antes de reintentar
+        retries -= 1
+        if (retries === 0) {
+          console.log('Max retries reached')
+          return
+        }
         return playAudio(req, res) // Llamar de nuevo la función
       }
       if (!res.headersSent) {
