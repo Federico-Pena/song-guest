@@ -15,21 +15,30 @@ export const playAudio = async (req: Request, res: Response) => {
       filter: 'audioonly',
       requestOptions: {
         headers: {
-          'User-Agent': 'Mozilla/5.0'
+          'User-Agent':
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         }
       }
     })
 
-    // Manejo de errores en el stream
-    audioStream.on('error', (error) => {
+    audioStream.on('error', async (error) => {
       console.error('Error downloading audio:', error.message)
+      if (error.message.includes('403')) {
+        console.log('Retrying with a new request...')
+        await new Promise((resolve) => setTimeout(resolve, 2000)) // Espera 2s antes de reintentar
+        return playAudio(req, res) // Llamar de nuevo la función
+      }
+      if (!res.headersSent) {
+        res
+          .status(500)
+          .json({ error: `Error downloading audio: ${error.message}` })
+      }
+      res.end()
     })
 
-    // Configurar los headers antes de empezar a enviar el audio
     res.setHeader('Content-Type', 'audio/mpeg')
     res.setHeader('Content-Disposition', 'inline')
 
-    // Enviar audio
     audioStream.pipe(res).on('finish', () => {
       console.log('Stream finished successfully')
     })
@@ -67,7 +76,7 @@ export const youtubeSerarch = async (req: Request, res: Response) => {
 
 export const getUserScore = async (req: Request, res: Response) => {
   try {
-    const user = await UserScoreModel.find({})
+    const user = await UserScoreModel.find().limit(10)
     if (!user) {
       res.status(404).json({ error: 'User not found' })
       return
