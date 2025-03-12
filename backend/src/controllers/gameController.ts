@@ -33,7 +33,6 @@ export const playAudio = async (req: Request, res: Response) => {
           .status(500)
           .json({ error: `Error downloading audio: ${error.message}` })
       }
-      res.end()
     })
 
     res.setHeader('Content-Type', 'audio/mpeg')
