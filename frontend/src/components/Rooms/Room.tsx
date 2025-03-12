@@ -38,11 +38,19 @@ const Room = () => {
       {state === 'finished' && (
         <article className="songWinner">
           <p>{contextGame.videoTitle}</p>
+          <iframe
+            src={`https://www.youtube.com/embed/${categorySelected?.items[0]?.id}?autoplay=1`}
+            title={`${categorySelected?.items[0]?.title}`}
+            allow="autoplay"
+          ></iframe>
+        </article>
+        /* <article className="songWinner">
+          <p>{contextGame.videoTitle}</p>
           <img
             src={contextGame.categorySelected?.items[0].thumbnail}
             alt={contextGame.videoTitle ?? ''}
           />
-        </article>
+        </article> */
       )}
       {contextGame.host === user?.name && state === 'finished' && (
         <p className={`btn-start`} title="Restart" onClick={handleReStart}>
