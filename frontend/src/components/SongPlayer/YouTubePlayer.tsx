@@ -32,7 +32,7 @@ export const YouTubePlayer = () => {
         <iframe
           className="youtube-iframe"
           ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&controls=0`}
+          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&controls=0&autoplay=0&mute=1`}
         ></iframe>
       )}
     </article>

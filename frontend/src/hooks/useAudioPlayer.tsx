@@ -41,15 +41,10 @@ export const useAudioPlayer = (
     }
     window.onYouTubeIframeAPIReady = () => {
       if (iframeRef.current) {
-        new window.YT.Player(iframeRef.current, {
+        const newPlayer = new window.YT.Player(iframeRef.current, {
           videoId: id,
-          playerVars: {
-            controls: 0,
-            enablejsapi: 1,
-            playsinline: 1
-          },
           events: {
-            onReady: (event) => setPlayer(event.target),
+            onReady: () => setPlayer(newPlayer),
             onError: () => handleVideoError()
           }
         })
@@ -95,7 +90,6 @@ export const useAudioPlayer = (
 
   const togglePlayPause = () => {
     if (!player) return
-    player.mute()
     if (user?.attempt === playIntervals.length) {
       addToast({
         text: 'You have finished the game',
