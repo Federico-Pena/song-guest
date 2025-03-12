@@ -2,27 +2,25 @@ import './YouTubePlayer.css'
 import React, { useRef } from 'react'
 import { AudioProgressBar } from './AudioProgressBar.tsx'
 import { MusicIcon, PlayIcon } from '../icons/Icons.tsx'
-import { useAudioPlayer } from '../../hooks/useAudioPlayer.tsx'
 import { Loader } from '../Loader/Loader.tsx'
+import { UseGameContext } from '../../context/GameContext.tsx'
+import { useAudioPlayer } from '../../hooks/useAudioPlayer.tsx'
 
 export const YouTubePlayer = () => {
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+  const iframeRef = useRef<HTMLIFrameElement | null>(null)
+  const { isPlaying, categorySelected, state } = UseGameContext()
+  const { togglePlayPause, player, initialTime, playIntervals } =
+    useAudioPlayer(iframeRef)
 
-  const {
-    isPlaying,
-    state,
-    togglePlayPause,
-    handleAudioError,
-    playIntervals,
-    initialTime
-  } = useAudioPlayer(audioRef)
+  const videoId = `https://www.youtube.com/watch?v=${categorySelected?.items[0]?.id}`
+
   return (
     <article className="youtube-player">
       {state === 'in-progress' && (
         <>
           <AudioProgressBar
             initialTime={initialTime}
-            audioRef={audioRef as React.RefObject<HTMLAudioElement>}
+            player={player}
             playIntervals={playIntervals}
           />
           <button
@@ -31,17 +29,17 @@ export const YouTubePlayer = () => {
             onClick={togglePlayPause}
             className={`btn-play-pause ${isPlaying ? 'playing' : ''}`}
           >
-            {!audioRef.current?.currentSrc ? (
-              <Loader />
-            ) : isPlaying ? (
-              <MusicIcon />
-            ) : (
-              <PlayIcon />
-            )}
+            {!videoId ? <Loader /> : isPlaying ? <MusicIcon /> : <PlayIcon />}
           </button>
         </>
       )}
-      <audio
+      <iframe
+        className="youtube-iframe"
+        ref={iframeRef}
+        src={`https://www.youtube.com/embed/${categorySelected?.items[0]?.id}?enablejsapi=1`}
+        title={`${categorySelected?.items[0]?.title}`}
+      ></iframe>
+      {/*  <audio
         onError={handleAudioError}
         ref={audioRef}
         controls={state === 'finished'}
@@ -49,7 +47,7 @@ export const YouTubePlayer = () => {
       >
         <source type="audio/mpeg" />
         Tu navegador no soporta el elemento de audio.
-      </audio>
+      </audio> */}
     </article>
   )
 }

@@ -53,15 +53,25 @@ function SinglePlayerPage() {
           <div className="playersContainer">
             <Player />
           </div>
-          {state === 'finished' && (
-            <article className="songWinner">
+          {
+            state === 'finished' && (
+              <article className="songWinner">
+                <p>{videoTitle}</p>
+                <iframe
+                  src={`https://www.youtube.com/embed/${categorySelected?.items[0]?.id}?autoplay=1`}
+                  title={`${categorySelected?.items[0]?.title}`}
+                  allow="autoplay"
+                ></iframe>
+              </article>
+            )
+            /* <article className="songWinner">
               <p>{videoTitle}</p>
               <img
                 src={categorySelected?.items[0].thumbnail}
                 alt={videoTitle ?? ''}
               />
-            </article>
-          )}
+            </article> */
+          }
           {(state === 'waiting' || state === 'finished') && (
             <button
               className="btn-start-single"

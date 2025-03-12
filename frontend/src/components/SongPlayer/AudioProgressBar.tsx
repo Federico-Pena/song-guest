@@ -2,41 +2,32 @@ import './AudioProgressBar.css'
 import { useEffect, useState } from 'react'
 
 interface AudioProgressBarProps {
-  audioRef: React.RefObject<HTMLAudioElement>
+  player: YT.Player | null
   playIntervals: number[]
   initialTime: number
 }
 
 export const AudioProgressBar = ({
-  audioRef,
+  player,
   playIntervals,
   initialTime
 }: AudioProgressBarProps) => {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
-    if (!audioRef || !audioRef.current) return
-    const refAudio = audioRef.current
+    if (!player) return
     const updateProgress = () => {
-      if (refAudio) {
-        const percentage =
-          ((refAudio.currentTime - initialTime) /
-            playIntervals[playIntervals.length - 1]) *
-          100
-        setProgress(percentage)
-      }
+      const currentTime = player.getCurrentTime()
+      const percentage =
+        ((currentTime - initialTime) /
+          playIntervals[playIntervals.length - 1]) *
+        100
+      setProgress(percentage)
     }
+    const interval = setInterval(updateProgress, 100)
 
-    if (refAudio) {
-      refAudio.addEventListener('timeupdate', updateProgress)
-    }
-
-    return () => {
-      if (refAudio) {
-        refAudio.removeEventListener('timeupdate', updateProgress)
-      }
-    }
-  }, [audioRef, playIntervals, initialTime])
+    return () => clearInterval(interval)
+  }, [player, playIntervals, initialTime])
 
   return (
     <div className="progress-container">

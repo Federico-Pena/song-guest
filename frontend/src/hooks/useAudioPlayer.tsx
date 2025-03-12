@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+/* import { useEffect, useState } from 'react'
 import { UseGameContext } from '../context/GameContext.tsx'
 import { UseUserContext } from '../context/UserContext.tsx'
 import { UseToastContext } from '../context/ToastContext.tsx'
@@ -105,5 +105,116 @@ export const useAudioPlayer = (
     handleAudioError,
     playIntervals,
     initialTime
+  }
+}
+ */
+declare global {
+  interface Window {
+    onYouTubeIframeAPIReady?: () => void
+    YT: {
+      Player: new (
+        container: HTMLElement,
+        options?: YT.PlayerOptions
+      ) => YT.Player
+    }
+  }
+}
+
+import { useEffect, useState } from 'react'
+import { UseGameContext } from '../context/GameContext.tsx'
+import { UseUserContext } from '../context/UserContext.tsx'
+import { UseToastContext } from '../context/ToastContext.tsx'
+
+const playIntervals = [1, 3, 6, 12, 20, 30]
+const initialTime = 10
+
+export const useAudioPlayer = (
+  iframeRef: React.RefObject<HTMLIFrameElement | null>
+) => {
+  const { isPlaying, categorySelected, dispatch, state } = UseGameContext()
+  const { user } = UseUserContext()
+  const { addToast } = UseToastContext()
+  const [attempts, setAttempts] = useState(0)
+  const [player, setPlayer] = useState<YT.Player | null>(null)
+
+  useEffect(() => {
+    if (!window.YT) {
+      const script = document.createElement('script')
+      script.src = 'https://www.youtube.com/iframe_api'
+      document.body.appendChild(script)
+    }
+
+    window.onYouTubeIframeAPIReady = () => {
+      if (iframeRef.current) {
+        const id = categorySelected?.items[0]?.id
+        new window.YT.Player(iframeRef.current, {
+          videoId: id,
+          playerVars: { controls: 0 },
+          events: {
+            onReady: (event) => setPlayer(event.target)
+          }
+        })
+      }
+    }
+  }, [categorySelected, iframeRef])
+
+  const togglePlayPause = () => {
+    if (!player) return
+
+    if (player.getPlayerState() === 1) {
+      player.pauseVideo()
+    } else {
+      dispatch({ type: 'TOGGLE_PLAY_PAUSE' })
+
+      if (user?.attempt === playIntervals.length) {
+        addToast({
+          text: 'You have finished the game',
+          duration: 3000,
+          className: 'toast-success'
+        })
+        return
+      }
+
+      const playTime = playIntervals[user?.attempt]
+      player.seekTo(initialTime, true)
+      player.playVideo()
+      setTimeout(() => {
+        if (player.getPlayerState() === 1) {
+          dispatch({ type: 'TOGGLE_PLAY_PAUSE' })
+          player.pauseVideo()
+        }
+      }, playTime * 1000)
+    }
+  }
+
+  const handleVideoError = () => {
+    if (attempts > 0) {
+      addToast({
+        text: `Can't get the video. Trying again ${attempts}/10`,
+        duration: 3000,
+        className: 'toast-error'
+      })
+    }
+    if (attempts >= 10) {
+      addToast({
+        text: "Can't get the video. Reload and try again",
+        duration: 3000,
+        className: 'toast-error'
+      })
+      return
+    }
+    setTimeout(() => {
+      setAttempts((prev) => prev + 1)
+    }, 3000)
+  }
+
+  return {
+    isPlaying,
+    state,
+    togglePlayPause,
+    handleVideoError,
+    playIntervals,
+    initialTime,
+    player
   }
 }
