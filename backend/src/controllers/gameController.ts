@@ -20,7 +20,10 @@ export const playAudio = async (req: Request, res: Response) => {
  */
     audioStream.on('error', async (error) => {
       console.error('Error downloading audio:', error.message)
-      if (error.message.includes('403')) {
+      if (
+        error.message.includes('403') ||
+        error.message.includes('Video unavailable')
+      ) {
         console.log('Retrying with a new request...')
         await new Promise((resolve) => setTimeout(resolve, 2000)) // Espera 2s antes de reintentar
         return playAudio(req, res) // Llamar de nuevo la función
