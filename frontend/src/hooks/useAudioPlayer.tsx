@@ -29,6 +29,7 @@ export const useAudioPlayer = (
   const [progress, setProgress] = useState<number>(0)
 
   useEffect(() => {
+    if (!categorySelected) return
     const rendomIndex = Math.floor(
       Math.random() * ((categorySelected?.items?.length || 5) - 1)
     )
@@ -42,7 +43,11 @@ export const useAudioPlayer = (
       if (iframeRef.current) {
         new window.YT.Player(iframeRef.current, {
           videoId: id,
-          playerVars: { controls: 0 },
+          playerVars: {
+            controls: 0,
+            enablejsapi: 1,
+            playsinline: 1
+          },
           events: {
             onReady: (event) => setPlayer(event.target),
             onError: () => handleVideoError()
