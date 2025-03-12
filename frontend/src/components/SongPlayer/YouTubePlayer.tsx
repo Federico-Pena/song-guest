@@ -1,5 +1,5 @@
 import './YouTubePlayer.css'
-import React, { useRef } from 'react'
+import { useRef } from 'react'
 import { AudioProgressBar } from './AudioProgressBar.tsx'
 import { MusicIcon, PlayIcon } from '../icons/Icons.tsx'
 import { Loader } from '../Loader/Loader.tsx'
