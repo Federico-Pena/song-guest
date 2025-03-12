@@ -9,8 +9,7 @@ import { useAudioPlayer } from '../../hooks/useAudioPlayer.tsx'
 export const YouTubePlayer = () => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
   const { isPlaying, categorySelected, state } = UseGameContext()
-  const { togglePlayPause, player, initialTime, playIntervals } =
-    useAudioPlayer(iframeRef)
+  const { togglePlayPause, progress, playIntervals } = useAudioPlayer(iframeRef)
 
   const videoId = categorySelected?.items[0]?.id
 
@@ -18,11 +17,7 @@ export const YouTubePlayer = () => {
     <article className="youtube-player">
       {state === 'in-progress' && (
         <>
-          <AudioProgressBar
-            initialTime={initialTime}
-            player={player}
-            playIntervals={playIntervals}
-          />
+          <AudioProgressBar progress={progress} playIntervals={playIntervals} />
           <button
             type="button"
             title={`${isPlaying ? 'Pause' : 'Play'}`}
@@ -33,7 +28,7 @@ export const YouTubePlayer = () => {
           </button>
         </>
       )}
-      {videoId && (
+      {state === 'in-progress' && (
         <iframe
           className="youtube-iframe"
           ref={iframeRef}
@@ -41,15 +36,6 @@ export const YouTubePlayer = () => {
           title={`${categorySelected?.items[0]?.title}`}
         ></iframe>
       )}
-      {/*  <audio
-        onError={handleAudioError}
-        ref={audioRef}
-        controls={state === 'finished'}
-        className="audio-player"
-      >
-        <source type="audio/mpeg" />
-        Tu navegador no soporta el elemento de audio.
-      </audio> */}
     </article>
   )
 }

@@ -2,12 +2,8 @@ import { createRequire } from "node:module"; const require = createRequire(impor
 
 // backend/src/config/apiConfig.ts
 var nodDevEnv = process.env.NODE_ENV === "development";
-var _a;
-var isLocalhost = ((_a = process.env.HOST) == null ? void 0 : _a.includes("://localhost:")) || process.env.HOST === void 0;
-var protocol = nodDevEnv || isLocalhost ? "http" : "https";
-var host = process.env.HOST ?? "localhost";
 var PORT = process.env.PORT ?? 1234;
-var API_URL = nodDevEnv ? `${protocol}://${host}:${PORT}` : "https://song-guest.onrender.com";
+var API_URL = nodDevEnv ? `http://localhost:1234` : "https://song-guest.onrender.com";
 var CORS_SETTINGS = {
   origin: [API_URL, "http://localhost:5173"],
   // Allow specific origins
