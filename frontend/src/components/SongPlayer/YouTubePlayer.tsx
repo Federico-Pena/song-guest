@@ -8,10 +8,9 @@ import { useAudioPlayer } from '../../hooks/useAudioPlayer.tsx'
 
 export const YouTubePlayer = () => {
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
-  const { isPlaying, categorySelected, state } = UseGameContext()
-  const { togglePlayPause, progress, playIntervals } = useAudioPlayer(iframeRef)
-
-  const videoId = categorySelected?.items[0]?.id
+  const { isPlaying, state } = UseGameContext()
+  const { togglePlayPause, progress, playIntervals, id } =
+    useAudioPlayer(iframeRef)
 
   return (
     <article className="youtube-player">
@@ -24,7 +23,7 @@ export const YouTubePlayer = () => {
             onClick={togglePlayPause}
             className={`btn-play-pause ${isPlaying ? 'playing' : ''}`}
           >
-            {!videoId ? <Loader /> : isPlaying ? <MusicIcon /> : <PlayIcon />}
+            {!id ? <Loader /> : isPlaying ? <MusicIcon /> : <PlayIcon />}
           </button>
         </>
       )}
@@ -32,7 +31,8 @@ export const YouTubePlayer = () => {
         <iframe
           className="youtube-iframe"
           ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&playsinline=1&controls=0&autoplay=0&mute=1`}
+          src={`https://www.youtube.com/embed/${id}?enablejsapi=1&playsinline=1&controls=0&autoplay=1&mute=1&start=0&end=1`}
+          allow="autoplay"
         ></iframe>
       )}
     </article>

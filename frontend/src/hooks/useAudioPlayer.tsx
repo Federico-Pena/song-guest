@@ -27,6 +27,7 @@ export const useAudioPlayer = (
   const [attempts, setAttempts] = useState(0)
   const [player, setPlayer] = useState<YT.Player | null>(null)
   const [progress, setProgress] = useState<number>(0)
+  const [id, setId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!categorySelected) return
@@ -34,6 +35,7 @@ export const useAudioPlayer = (
       Math.random() * ((categorySelected?.items?.length || 5) - 1)
     )
     const id = categorySelected?.items[rendomIndex]?.id
+    setId(id)
     if (!window.YT) {
       const script = document.createElement('script')
       script.src = 'https://www.youtube.com/iframe_api'
@@ -45,29 +47,52 @@ export const useAudioPlayer = (
           videoId: id,
           events: {
             onReady: () => setPlayer(newPlayer),
-            onError: () => handleVideoError()
+            onError: (event) => handleVideoError(event)
           }
         })
       }
     }
-    const handleVideoError = () => {
-      if (attempts > 0) {
-        addToast({
-          text: `Can't get the video. Trying again ${attempts}/10`,
-          duration: 3000,
-          className: 'toast-error'
-        })
+    const handleVideoError = (event: YT.OnErrorEvent) => {
+      const errorCode = event.data
+      const id = categorySelected?.items[rendomIndex]?.id
+
+      let errorMessage = 'An unknown error occurred.'
+      switch (errorCode) {
+        case 2:
+          errorMessage = 'Invalid video ID.'
+          break
+        case 5:
+          errorMessage = 'This video cannot be played in HTML5.'
+          break
+        case 100:
+          errorMessage = 'Video is unavailable (deleted or private).'
+          break
+        case 101:
+        case 150:
+          errorMessage = 'This video cannot be embedded.'
+          break
+        default:
+          errorMessage = `YouTube Error: ${errorCode}`
       }
+
+      addToast({
+        text: errorMessage,
+        duration: 3000,
+        className: 'toast-error'
+      })
+
       if (attempts >= 10) {
         addToast({
-          text: "Can't get the video. Reload and try again",
+          text: "Can't get the video. Reload and try again.",
           duration: 3000,
           className: 'toast-error'
         })
         return
       }
+
       setTimeout(() => {
         if (!id) return
+        setId(id)
         player?.cueVideoById(id)
         setAttempts((prev) => prev + 1)
       }, 3000)
@@ -112,6 +137,7 @@ export const useAudioPlayer = (
   }
 
   return {
+    id,
     state,
     togglePlayPause,
     playIntervals,
