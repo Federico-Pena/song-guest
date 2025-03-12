@@ -12,7 +12,7 @@ export const YouTubePlayer = () => {
   const { togglePlayPause, player, initialTime, playIntervals } =
     useAudioPlayer(iframeRef)
 
-  const videoId = `https://www.youtube.com/watch?v=${categorySelected?.items[0]?.id}`
+  const videoId = categorySelected?.items[0]?.id
 
   return (
     <article className="youtube-player">
@@ -33,12 +33,14 @@ export const YouTubePlayer = () => {
           </button>
         </>
       )}
-      <iframe
-        className="youtube-iframe"
-        ref={iframeRef}
-        src={`https://www.youtube.com/embed/${categorySelected?.items[0]?.id}?enablejsapi=1`}
-        title={`${categorySelected?.items[0]?.title}`}
-      ></iframe>
+      {videoId && (
+        <iframe
+          className="youtube-iframe"
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1`}
+          title={`${categorySelected?.items[0]?.title}`}
+        ></iframe>
+      )}
       {/*  <audio
         onError={handleAudioError}
         ref={audioRef}

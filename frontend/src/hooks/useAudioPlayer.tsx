@@ -147,6 +147,7 @@ export const useAudioPlayer = (
     window.onYouTubeIframeAPIReady = () => {
       if (iframeRef.current) {
         const id = categorySelected?.items[0]?.id
+
         new window.YT.Player(iframeRef.current, {
           videoId: id,
           playerVars: { controls: 0 },
